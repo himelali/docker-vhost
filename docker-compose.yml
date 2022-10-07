@@ -1,0 +1,63 @@
+version: "3.9"
+services:
+  nginx:
+    container_name: nginx
+    ports:
+      - "80:80"
+    build:
+      context: ./nginx
+      dockerfile: .Dockerfile
+    networks:
+      local_bridge:
+        ipv4_address: 172.20.2.0
+  api:
+    container_name: api
+    depends_on:
+      - nginx
+    build:
+      context: ./api
+      dockerfile: .Dockerfile
+    networks:
+      local_bridge:
+        ipv4_address: 172.20.2.1
+  dashboard:
+    container_name: dashboard
+    depends_on:
+      - nginx
+    build:
+      context: ./dashboard
+      dockerfile: .Dockerfile
+    networks:
+      local_bridge:
+        ipv4_address: 172.20.2.2
+  home:
+    container_name: home
+    depends_on:
+      - nginx
+    build:
+      context: ./home
+      dockerfile: .Dockerfile
+    networks:
+      local_bridge:
+        ipv4_address: 172.20.2.3
+  payment:
+    container_name: payment
+    depends_on:
+      - nginx
+    build:
+      context: ./payment
+      dockerfile: .Dockerfile
+    networks:
+      local_bridge:
+        ipv4_address: 172.20.2.4
+networks:
+  local_bridge:
+    name: con_net
+    driver: bridge
+    attachable: false
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
+          ip_range: 172.20.2.0/24
+          gateway: 172.20.0.1

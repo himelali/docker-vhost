@@ -10,7 +10,7 @@
 docker subdomain to different container
 
 
-Must add in your host file
+Must add in your host file for localhost checking
 
   127.0.0.1 api.mydomainname.com
   
